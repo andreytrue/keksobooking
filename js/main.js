@@ -4,7 +4,7 @@ const getRandomInteger = (min, max) => {
 
 const getRandomFloat = (min, max, float) => {
   if (max < min) {
-    return (max - 0.5 + Math.random() * (min - max)).toFixed(float);
+    return (max + Math.random() * (min - max)).toFixed(float);
   } else if (min < 0 || max < 0) {
     throw new Error ('Значение не может быть меньше 0');
   }
