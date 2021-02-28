@@ -34,7 +34,7 @@ const createPoint = () => {
       address: locationX + ', ' + locationY,
       price: getRandomInteger(PRICE_MIN, PRICE_MAX),
       type: TYPES[getRandomInteger(0, TYPES.length-1)],
-      rooms: getRandomInteger(0, ROOM_AMOUNT),
+      rooms: getRandomInteger(1, ROOM_AMOUNT),
       guests: getRandomInteger(1, GUEST_AMOUNT),
       checkin: CHECK_IN_TIME[checkInIndex],
       checkout: CHECK_OUT_TIME[checkOutIndex],
