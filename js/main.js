@@ -1,8 +1,13 @@
 import {createPoint} from './modules/mock.js'
-import {POINTS_AMOUNT} from './modules/utils.js';
+import {getCardTemplate} from './modules/card.js';
+const POINTS_AMOUNT = 1;
 
 const getPoints = () => {
   return new Array(POINTS_AMOUNT).fill().map(() => createPoint());
 };
 
-getPoints();
+const cards = getPoints();
+
+cards.forEach((card) => {
+  getCardTemplate(card);
+});

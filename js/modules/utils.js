@@ -20,6 +20,4 @@ const getRandomFloat = (min, max, float = 0) => {
   return +(min + Math.random() * (max - min)).toFixed(float);
 };
 
-const POINTS_AMOUNT = 10;
-
-export {getRandomInteger, getRandomFloat, POINTS_AMOUNT};
+export {getRandomInteger, getRandomFloat};
