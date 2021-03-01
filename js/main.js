@@ -1,5 +1,6 @@
 import {createPoint} from './modules/mock.js'
 import {createCardTemplate} from './modules/card.js';
+import './modules/form.js';
 const POINTS_AMOUNT = 1;
 
 const map = document.querySelector('#map-canvas');
