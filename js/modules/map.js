@@ -27,6 +27,8 @@ const disableMap = () => {
   mapFilterFeatures.disabled = true;
 };
 
+disableMap();
+
 const enableMap = () => {
   adForm.classList.remove('ad-form--disabled');
   formFields.forEach((field) => {
