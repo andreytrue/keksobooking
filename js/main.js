@@ -1,6 +1,6 @@
 import {createPoint} from './modules/mock.js'
 import './modules/form.js';
-import {disableMap, addPointOnMap} from './modules/map.js';
+import {addPointOnMap} from './modules/map.js';
 
 const POINTS_AMOUNT = 10;
 
