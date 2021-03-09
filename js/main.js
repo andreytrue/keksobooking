@@ -1,17 +1,15 @@
 import {createPoint} from './modules/mock.js'
-import {createCardTemplate} from './modules/card.js';
 import './modules/form.js';
-const POINTS_AMOUNT = 1;
+import {addPointOnMap} from './modules/map.js';
 
-const map = document.querySelector('#map-canvas');
+const POINTS_AMOUNT = 10;
 
 const getPoints = () => {
   return new Array(POINTS_AMOUNT).fill().map(() => createPoint());
 };
 
-const cards = getPoints();
+const points = getPoints();
 
-cards.forEach((card) => {
-  const cardTemplate = createCardTemplate(card);
-  map.appendChild(cardTemplate);
+points.forEach((point) => {
+  addPointOnMap(point);
 });

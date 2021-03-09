@@ -1,3 +1,5 @@
+import {FLOAT_NUMBER} from './mock.js';
+
 const form = document.querySelector('.notice');
 
 const priceFromType = {
@@ -25,3 +27,16 @@ placeTimeIn.addEventListener('change', () => {
 placeTimeOut.addEventListener('change', () => {
   placeTimeIn.value = placeTimeOut.value;
 });
+
+const placeAddress = form.querySelector('#address');
+placeAddress.setAttribute('readonly', true);
+
+const setAddress = ({lat, lng}) => {
+  const x = lat.toFixed(FLOAT_NUMBER);
+  const y = lng.toFixed(FLOAT_NUMBER);
+
+  placeAddress.value = x + ', ' + y;
+  placeAddress.placeholder = x + ', ' + y;
+};
+
+export {setAddress};

@@ -5,6 +5,7 @@
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/style.css">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css">
   <title>Кексобукинг</title>
 </head>
 <body>
@@ -219,7 +220,7 @@
       <p class="success__message">Ваше объявление<br>успешно размещено!</p>
     </div>
   </template>
-
+    
   <!-- Сообщение об ошибке создания объявления -->
   <template id="error">
     <div class="error">
@@ -229,6 +230,10 @@
   </template>
 
   <script type="module" src="./js/main.js"></script>
+  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin="">
+  </script>
 
 </body>
 </html>

@@ -49,4 +49,4 @@ const createPoint = () => {
   };
 };
 
-export {createPoint};
+export {createPoint, FLOAT_NUMBER};
