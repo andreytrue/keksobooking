@@ -55,7 +55,6 @@ placeTitle.required = true;
 const placeRoom = form.querySelector('#room_number');
 const placeCapacity = form.querySelector('#capacity');
 placeCapacity.required = true;
-console.log(placeCapacity);
 
 form.action = 'https://22.javascript.pages.academy/keksobooking';
 
