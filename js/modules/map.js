@@ -2,44 +2,14 @@
 
 import {createCardTemplate} from './card.js';
 import {setAddress} from './form.js';
-
-const adForm = document.querySelector('.ad-form');
-const formFields = adForm.querySelectorAll('fieldset');
-
-const mapElement = document.querySelector('#map-canvas');
-
-const mapFilters = document.querySelector('.map__filters');
-const mapFilterList = mapFilters.querySelectorAll('.map__filter');
-const mapFilterFeatures = mapFilters.querySelector('.map__features');
-
-const MAIN_PIN_X = 35.6684415;
-const MAIN_PIN_Y = 139.7616374;
-
-const disableMap = () => {
-  adForm.classList.add('ad-form--disabled');
-  formFields.forEach((field) => {
-    field.disabled = true;
-  })
-  mapFilters.classList.add('map__filters--disabled');
-  mapFilterList.forEach((filter) => {
-    filter.disabled = true;
-  })
-  mapFilterFeatures.disabled = true;
-};
+import {enableMap, disableMap} from './filter.js';
 
 disableMap();
 
-const enableMap = () => {
-  adForm.classList.remove('ad-form--disabled');
-  formFields.forEach((field) => {
-    field.disabled = false;
-  })
-  mapFilters.classList.remove('map__filters--disabled');
-  mapFilterList.forEach((filter) => {
-    filter.disabled = false;
-  })
-  mapFilterFeatures.disabled = false;
-}
+const mapElement = document.querySelector('#map-canvas');
+
+const MAIN_PIN_X = 35.6684415;
+const MAIN_PIN_Y = 139.7616374;
 
 const map = L.map(mapElement)
   .on('load', enableMap)

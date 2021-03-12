@@ -1,6 +1,8 @@
 import {FLOAT_NUMBER} from './mock.js';
 
-const form = document.querySelector('.notice');
+const PRICE_MAX = 1000000;
+
+const form = document.querySelector('.ad-form');
 
 const priceFromType = {
   'bungalow': 0,
@@ -12,10 +14,18 @@ const priceFromType = {
 const placeType = form.querySelector('#type');
 const placePrice = form.querySelector('#price');
 
-placeType.addEventListener('change', () => {
+placePrice.max = PRICE_MAX;
+
+const setPrice = () => {
   placePrice.min = priceFromType[placeType.value];
   placePrice.placeholder = priceFromType[placeType.value];
-});
+}
+
+setPrice();
+
+placeType.addEventListener('change', setPrice);
+
+placePrice.required = true;
 
 const placeTimeIn = form.querySelector('#timein');
 const placeTimeOut = form.querySelector('#timeout');
@@ -39,4 +49,14 @@ const setAddress = ({lat, lng}) => {
   placeAddress.placeholder = x + ', ' + y;
 };
 
-export {setAddress};
+const placeTitle = form.querySelector('#title');
+placeTitle.required = true;
+
+const placeRoom = form.querySelector('#room_number');
+const placeCapacity = form.querySelector('#capacity');
+placeCapacity.required = true;
+console.log(placeCapacity);
+
+form.action = 'https://22.javascript.pages.academy/keksobooking';
+
+export {form, setPrice, setAddress, placeTitle, placeRoom, placeCapacity};

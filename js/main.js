@@ -1,6 +1,7 @@
 import {createPoint} from './modules/mock.js'
 import './modules/form.js';
 import {addPointOnMap} from './modules/map.js';
+import './modules/validation.js';
 
 const POINTS_AMOUNT = 10;
 
