@@ -1,8 +1,18 @@
 /* global L:readonly */
 
 import {createCardTemplate} from './card.js';
-import {setAddress} from './form.js';
-import {enableMap, disableMap} from './filter.js';
+import {setAddress, enableForm, disableForm} from './form.js';
+import {enableFilter, disableFilter} from './filter.js';
+
+const enableMap = () => {
+  enableForm();
+  enableFilter();
+}
+
+const disableMap = () => {
+  disableForm();
+  disableFilter();
+}
 
 disableMap();
 

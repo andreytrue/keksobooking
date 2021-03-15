@@ -1,15 +1,18 @@
 import {placeRoom, placeTitle, placeCapacity} from './form.js';
 
-const MIN_TITLE_LENGTH = 30;
-const MAX_TITLE_LENGTH = 100;
+const TITLE_LENGTH_MIN = 30;
+const TITLE_LENGTH_MAX = 100;
+
+const ROOM_MAX = 100;
+const CAPACITY_MIN = 0;
 
 placeTitle.addEventListener('input', () => {
   const valueLength = placeTitle.value.length;
   
-  if (valueLength < MIN_TITLE_LENGTH) {
-    placeTitle.setCustomValidity('Не хватает ' + (MIN_TITLE_LENGTH - valueLength) + ' символов');
-  } else if (valueLength > MAX_TITLE_LENGTH) {
-    placeTitle.setCustomValidity('Уберите лишние ' + (valueLength - MAX_TITLE_LENGTH) + ' символов');
+  if (valueLength < TITLE_LENGTH_MIN) {
+    placeTitle.setCustomValidity('Не хватает ' + (TITLE_LENGTH_MIN - valueLength) + ' символов');
+  } else if (valueLength > TITLE_LENGTH_MAX) {
+    placeTitle.setCustomValidity('Уберите лишние ' + (valueLength - TITLE_LENGTH_MAX) + ' символов');
   } else {
     placeTitle.setCustomValidity('');
   }
@@ -23,12 +26,12 @@ const setPlaceCapacity = () => {
     const option = placeCapacity[i];
     const capacity = Number(option.value);
 
-    if (roomsValue === 100) {
+    if (roomsValue === ROOM_MAX) {
       capacity === 0 ? option.disabled = false : option.disabled = true;
     } else {
       capacity > roomsValue ? option.disabled = true : option.disabled = false;
 
-      if (capacity === 0) {
+      if (capacity === CAPACITY_MIN) {
         option.disabled = true;
       }
     }
@@ -39,4 +42,6 @@ const setPlaceCapacity = () => {
 
 setPlaceCapacity();
 
-placeRoom.addEventListener('change', setPlaceCapacity);
+placeRoom.addEventListener('change', () => {
+  setPlaceCapacity();
+});
