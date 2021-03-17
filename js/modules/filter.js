@@ -15,4 +15,8 @@ const enableFilters = () => {
   })
 }
 
-export {disableFilters, enableFilters};
+const resetFilters = () => {
+  mapFilters.reset();
+}
+
+export {disableFilters, enableFilters, resetFilters};

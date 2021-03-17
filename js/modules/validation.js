@@ -9,9 +9,9 @@ const CAPACITY_MIN = 0;
 placeTitle.addEventListener('input', () => {
   const valueLength = placeTitle.value.length;
   
-  if (valueLength < TITLE_LENGTH_MIN) {
+  if (placeTitle.minlength < TITLE_LENGTH_MIN) {
     placeTitle.setCustomValidity('Не хватает ' + (TITLE_LENGTH_MIN - valueLength) + ' символов');
-  } else if (valueLength > TITLE_LENGTH_MAX) {
+  } else if (placeTitle.maxlength > TITLE_LENGTH_MAX) {
     placeTitle.setCustomValidity('Уберите лишние ' + (valueLength - TITLE_LENGTH_MAX) + ' символов');
   } else {
     placeTitle.setCustomValidity('');
@@ -40,8 +40,10 @@ const setPlaceCapacity = () => {
   }
 }
 
-setPlaceCapacity();
+// setPlaceCapacity();
 
 placeRoom.addEventListener('change', () => {
   setPlaceCapacity();
 });
+
+export {setPlaceCapacity};

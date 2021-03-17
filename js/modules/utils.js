@@ -1,23 +1,71 @@
-const getRandomInteger = (min, max) => {
-  if (max === undefined) {
-    throw new Error ('Вы не передали максимальное значение диапазона');
-  }
+const ALERT_SHOW_TIME = 5000;
 
-  return Math.round(min - 0.5 + Math.random() * (max - min + 1));
-};
+const showAlertMessage = (message) => {
+  const alertContainer = document.createElement('div');
+  alertContainer.style.zIndex = 1000;
+  alertContainer.style.position = 'absolute';
+  alertContainer.style.left = 0;
+  alertContainer.style.top = 0;
+  alertContainer.style.right = 0;
+  alertContainer.style.padding = '10px 3px';
+  alertContainer.style.fontSize = '30px';
+  alertContainer.style.textAlign = 'center';
+  alertContainer.style.backgroundColor = 'red';
+  
+  alertContainer.textContent = message;
+  
+  document.body.append(alertContainer);
 
-const getRandomFloat = (min, max, float = 0) => {
-  if (max === undefined) {
-    throw new Error ('Вы не передали максимальное значение диапазона');
-  }
+  setTimeout(() => {
+    alertContainer.remove();
+  }, ALERT_SHOW_TIME);
+}
 
-  if (max < min) {
-    return +(max + Math.random() * (min - max)).toFixed(float);
-  } else if (min < 0 || max < 0) {
-    throw new Error ('Значение не может быть меньше 0');
-  }
+const successMessage = document.getElementById('success').content.querySelector('.success');
 
-  return +(min + Math.random() * (max - min)).toFixed(float);
-};
+const closeMessage = (message) => {
+  message.remove();
+}
 
-export {getRandomInteger, getRandomFloat};
+const container = document.querySelector('main');
+
+const showSuccessMessage = () => {
+  const messageElement = successMessage.cloneNode(true);
+  messageElement.style.zIndex = 1000;
+  container.append(messageElement);
+  
+  window.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Esc' || evt.key === 'Escape') {
+      closeMessage(messageElement);
+    }
+  });
+
+  window.addEventListener('click', () => {
+    closeMessage(messageElement);
+  });
+}
+
+const errorMessage = document.getElementById('error').content.querySelector('.error');
+
+const showErrorMessage = () => {
+  const messageElement = errorMessage.cloneNode(true);
+  const errorButton = messageElement.querySelector('.error__button');
+  messageElement.style.zIndex = 1000;
+  container.append(messageElement);
+
+  window.addEventListener('keydown', (evt) => {
+    if (evt.key === 'Esc' || evt.key === 'Escape') {
+      closeMessage(messageElement);
+    }
+  });
+
+  errorButton.addEventListener('click', () => {
+    closeMessage(messageElement);
+  });
+
+  window.addEventListener('click', () => {
+    closeMessage(messageElement);
+  });
+}
+
+export {showAlertMessage, showSuccessMessage, showErrorMessage};

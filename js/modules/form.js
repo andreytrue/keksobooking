@@ -1,5 +1,9 @@
-import {FLOAT_NUMBER} from './mock.js';
+import {sendData} from './data.js';
+import {showSuccessMessage, showErrorMessage} from './utils.js';
+import {resetFilters} from './filter.js';
+import {resetMainPoint} from './map.js';
 
+const FLOAT_NUMBER = 5;
 const PRICE_MAX = 1000000;
 const SERVER_ADDRESS = 'https://22.javascript.pages.academy/keksobooking';
 const priceFromType = {
@@ -53,6 +57,8 @@ const placeCapacity = form.querySelector('#capacity');
 
 form.action = SERVER_ADDRESS;
 
+const formFields = form.querySelectorAll('fieldset');
+
 const disableForm = () => {
   form.classList.add('ad-form--disabled');
   formFields.forEach((field) => {
@@ -67,4 +73,35 @@ const enableForm = () => {
   });
 };
 
-export {form, setPrice, setAddress, placeTitle, placeRoom, placeCapacity, disableForm, enableForm};
+const resetForm = () => {
+  form.reset();
+
+  setPrice();
+}
+
+const setPointFormSubmit = (onSuccess) => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    sendData(
+      () => {
+        showSuccessMessage();
+        return onSuccess();
+      },
+      () => showErrorMessage(),
+      new FormData(evt.target),
+    );
+  });
+};
+
+const formReset = form.querySelector('.ad-form__reset');
+
+formReset.addEventListener('click', (evt) => {
+  evt.preventDefault();
+
+  resetForm();
+  resetFilters();
+  resetMainPoint();
+})
+
+export {form, setPrice, setAddress, placeTitle, placeRoom, placeCapacity, disableForm, enableForm, resetForm, setPointFormSubmit};
