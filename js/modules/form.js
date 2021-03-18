@@ -1,9 +1,11 @@
-import {FLOAT_NUMBER} from './mock.js';
+import {sendData} from './data.js';
+import {showSuccessMessage, showErrorMessage} from './utils.js';
+import {resetFilters} from './filter.js';
+import {resetMainPoint} from './map.js';
 
+const FLOAT_NUMBER = 5;
 const PRICE_MAX = 1000000;
-
-const form = document.querySelector('.ad-form');
-
+const SERVER_ADDRESS = 'https://22.javascript.pages.academy/keksobooking';
 const priceFromType = {
   'bungalow': 0,
   'flat': 1000,
@@ -11,6 +13,7 @@ const priceFromType = {
   'palace': 10000,
 }
 
+const form = document.querySelector('.ad-form');
 const placeType = form.querySelector('#type');
 const placePrice = form.querySelector('#price');
 
@@ -23,9 +26,9 @@ const setPrice = () => {
 
 setPrice();
 
-placeType.addEventListener('change', setPrice);
-
-placePrice.required = true;
+placeType.addEventListener('change', () => {
+  setPrice();
+});
 
 const placeTimeIn = form.querySelector('#timein');
 const placeTimeOut = form.querySelector('#timeout');
@@ -39,7 +42,6 @@ placeTimeOut.addEventListener('change', () => {
 });
 
 const placeAddress = form.querySelector('#address');
-placeAddress.setAttribute('readonly', true);
 
 const setAddress = ({lat, lng}) => {
   const x = lat.toFixed(FLOAT_NUMBER);
@@ -50,12 +52,56 @@ const setAddress = ({lat, lng}) => {
 };
 
 const placeTitle = form.querySelector('#title');
-placeTitle.required = true;
-
 const placeRoom = form.querySelector('#room_number');
 const placeCapacity = form.querySelector('#capacity');
-placeCapacity.required = true;
 
-form.action = 'https://22.javascript.pages.academy/keksobooking';
+form.action = SERVER_ADDRESS;
 
-export {form, setPrice, setAddress, placeTitle, placeRoom, placeCapacity};
+const formFields = form.querySelectorAll('fieldset');
+
+const disableForm = () => {
+  form.classList.add('ad-form--disabled');
+  formFields.forEach((field) => {
+    field.disabled = true;
+  });
+};
+
+const enableForm = () => {
+  form.classList.remove('ad-form--disabled');
+  formFields.forEach((field) => {
+    field.disabled = false;
+  });
+};
+
+const resetForm = () => {
+  form.reset();
+
+  setPrice();
+}
+
+const setPointFormSubmit = (onSuccess) => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    sendData(
+      () => {
+        showSuccessMessage();
+        return onSuccess();
+      },
+      () => showErrorMessage(),
+      new FormData(evt.target),
+    );
+  });
+};
+
+const formReset = form.querySelector('.ad-form__reset');
+
+formReset.addEventListener('click', (evt) => {
+  evt.preventDefault();
+
+  resetForm();
+  resetFilters();
+  resetMainPoint();
+})
+
+export {form, setPrice, setAddress, placeTitle, placeRoom, placeCapacity, disableForm, enableForm, resetForm, setPointFormSubmit};
