@@ -1,12 +1,16 @@
 import {showAlertMessage} from './utils.js';
 
+const GET_LINK = 'https://22.javascript.pages.academy/keksobooking/data';
+const SEND_LINK = 'https://22.javascript.pages.academy/keksobooking';
+const ALERT_MESSAGE = 'Не удалось загрузить точки. Попробуйте вновь.';
+
 const getData = (onSuccess) => {
-  fetch('https://22.javascript.pages.academy/keksobooking/data')
+  fetch(GET_LINK)
     .then((response) => {
       if (response.ok) {
         return response.json();
       } else {
-        showAlertMessage('Не удалось загрузить точки. Попробуйте вновь.');
+        showAlertMessage(ALERT_MESSAGE);
       }
     })
     .then((points) => {
@@ -16,7 +20,7 @@ const getData = (onSuccess) => {
 
 const sendData = (onSuccess, onFail, body) => {
   fetch(
-    'https://22.javascript.pages.academy/keksobooking',
+    SEND_LINK,
     {
       method: 'POST',
       body,

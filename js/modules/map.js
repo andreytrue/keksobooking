@@ -4,6 +4,8 @@ import {createCardTemplate} from './card.js';
 import {setAddress, enableForm, disableForm} from './form.js';
 import {enableFilters, disableFilters} from './filter.js';
 
+const POINTS_AMOUNT = 10;
+
 const enableMap = () => {
   enableForm();
   enableFilters();
@@ -17,6 +19,7 @@ const disableMap = () => {
 disableMap();
 
 const mapElement = document.querySelector('#map-canvas');
+let isMap = false;
 
 const MAIN_PIN_X = 35.6684415;
 const MAIN_PIN_Y = 139.7616374;
@@ -34,6 +37,8 @@ L.tileLayer(
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
   },
 ).addTo(map);
+
+let layerGroup = L.layerGroup().addTo(map);
 
 const mainPinIcon = L.icon({
   iconUrl: '../img/main-pin.svg',
@@ -62,24 +67,27 @@ mainPinMarker.addTo(map);
 setAddress(mainPinMarker.getLatLng());
 
 const addPointOnMap = (points) => {
-  points.forEach((point) => {
-    const lat = point.location.lat
-    const lng = point.location.lng;
+  points
+    .slice(0, POINTS_AMOUNT)
+    .forEach((point) => {
+      const lat = point.location.lat
+      const lng = point.location.lng;
 
-    const marker = L.marker({
-      lat,
-      lng,
-    },
-    {
-      icon: pinIcon,
-    });
+      const marker = L.marker({
+        lat,
+        lng,
+      },
+      {
+        icon: pinIcon,
+      });
 
-    marker
-      .addTo(map)
-      .bindPopup(
-        createCardTemplate(point),
-      );
-  })
+      marker
+        .addTo(layerGroup)
+        .bindPopup(
+          createCardTemplate(point),
+        );
+    })
+  isMap = true;
 }
 
 mainPinMarker.on('moveend', (evt) => {
@@ -92,4 +100,12 @@ const resetMainPoint = () => {
   setAddress(mainPinMarker.getLatLng());
 }
 
-export {disableMap, enableMap, addPointOnMap, resetMainPoint};
+const restoreMap = () => {
+  if (isMap) {
+    layerGroup.clearLayers();
+
+    isMap = false;
+  }
+}
+
+export {disableMap, enableMap, addPointOnMap, resetMainPoint, restoreMap};

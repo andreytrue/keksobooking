@@ -1,17 +1,17 @@
 import './modules/map.js';
 import './modules/form.js';
-import {resetFilters} from './modules/filter.js';
+import {resetFilters, setFilterTypeChange} from './modules/filter.js';
 import {setPlaceCapacity} from './modules/validation.js';
 import {addPointOnMap, resetMainPoint} from './modules/map.js';
 import {getData} from './modules/data.js';
 import {setPointFormSubmit, resetForm} from './modules/form.js';
-
-const POINTS_AMOUNT = 10;
+import {renderPoints} from './modules/render.js';
 
 setPlaceCapacity();
 
-getData((points) => {
-  addPointOnMap(points.slice(0, POINTS_AMOUNT));
+getData((data) => {
+  addPointOnMap(data);
+  setFilterTypeChange(() => renderPoints(data));
 });
 
 const resetPage = () => {
