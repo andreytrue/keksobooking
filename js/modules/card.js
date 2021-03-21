@@ -8,10 +8,10 @@ const offerTypes = {
   palace: 'Дворец',
 }
 
-const cardElement = cardTemplate.cloneNode(true);
-const cardPhotosList = cardElement.querySelector('.popup__photos');
-
 const createCardTemplate = (card) => {
+  const cardElement = cardTemplate.cloneNode(true);
+  const cardPhotosList = cardElement.querySelector('.popup__photos');
+
   cardElement.querySelector('.popup__title').textContent = card.offer.title;
   cardElement.querySelector('.popup__text--address').textContent = card.offer.address;
   cardElement.querySelector('.popup__text--price').textContent = card.offer.price + ' ₽/ночь';
@@ -45,7 +45,7 @@ const createCardTemplate = (card) => {
   card.author.avatar ?
     cardElement.querySelector('.popup__avatar').src = card.author.avatar :
     card.author.avatar.hidden = true;
-
+  
   return cardElement;
 };
 
