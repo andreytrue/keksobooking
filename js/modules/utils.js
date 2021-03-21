@@ -21,53 +21,50 @@ const showAlertMessage = (message) => {
   }, ALERT_SHOW_TIME);
 }
 
+const container = document.querySelector('main');
+const errorMessage = document.getElementById('error').content.querySelector('.error');
 const successMessage = document.getElementById('success').content.querySelector('.success');
 
-const closeMessage = (message) => {
-  message.remove();
+const messages = {
+  success: successMessage,
+  error: errorMessage,
 }
 
-const container = document.querySelector('main');
+const onWindowKeyDown = (evt) => {
+  if (evt.key === 'Esc' || evt.key === 'Escape') {
+    closeMessage();
+  }
+}
 
-const showSuccessMessage = () => {
-  const messageElement = successMessage.cloneNode(true);
+const onWindowClick = () => {
+  closeMessage();
+}
+
+const closeMessage = () => {
+  const message = document.querySelector('.message-popup');
+
+  if (message) {
+    message.remove();
+    window.removeEventListener('keydown', onWindowKeyDown);
+    window.removeEventListener('click', onWindowClick);
+  }
+}
+
+const showMessage = (type) => {
+  const messageElement = messages[type].cloneNode(true);
   messageElement.style.zIndex = 1000;
   container.append(messageElement);
   
-  window.addEventListener('keydown', (evt) => {
-    window.removeEventListener('keydown', () => {});
-    if (evt.key === 'Esc' || evt.key === 'Escape') {
-      closeMessage(messageElement);
-    }
-  });
-
-  window.addEventListener('click', () => {
-    window.removeEventListener('click', () => {});
-    closeMessage(messageElement);
-  });
+  window.addEventListener('keydown', onWindowKeyDown);
+  window.addEventListener('click', onWindowClick);
 }
 
-const errorMessage = document.getElementById('error').content.querySelector('.error');
+const showSuccessMessage = () => {
+  showMessage('success');
+}
 
 const showErrorMessage = () => {
-  const messageElement = errorMessage.cloneNode(true);
-  const errorButton = messageElement.querySelector('.error__button');
-  messageElement.style.zIndex = 1000;
-  container.append(messageElement);
-
-  window.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Esc' || evt.key === 'Escape') {
-      closeMessage(messageElement);
-    }
-  });
-
-  errorButton.addEventListener('click', () => {
-    closeMessage(messageElement);
-  });
-
-  window.addEventListener('click', () => {
-    closeMessage(messageElement);
-  });
+  showMessage('error');
 }
 
 export {showAlertMessage, showSuccessMessage, showErrorMessage};
