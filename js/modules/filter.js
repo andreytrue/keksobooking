@@ -1,8 +1,11 @@
+/* global _:readonly */
 import {addPointOnMap, restoreMap} from './map.js';
 
 const ANY = 'any';
 const PRICE_LOW = 10000;
 const PRICE_HIGH = 50000;
+
+const RERENDER_DELAY = 500;
 
 const mapFilters = document.querySelector('.map__filters');
 const mapFilterList = mapFilters.querySelectorAll('.map__filter');
@@ -29,110 +32,44 @@ const resetFilters = () => {
 }
 
 const filterType = mapFilters.querySelector('#housing-type');
-const setFilterTypeChange = () => {
-  filterType.addEventListener('change', filterPoints);
-}
-
-const filterByType = (points) => {
-  const filteredPoints = points.filter((point) => {
-    return point.offer.type === filterType.value;
-  });
-
-  return filteredPoints;
-}
-
 const filterPrice = mapFilters.querySelector('#housing-price');
-const setFilterPriceChange = () => {
-  filterPrice.addEventListener('change', filterPoints);
-}
-
-const filterByPrice = (points) => {
-  const filteredPoints = points.filter((point) => {
-    switch (filterPrice.value) {
-      case 'middle':
-        return (point.offer.price > PRICE_LOW && point.offer.price < PRICE_HIGH);
-      case 'low':
-        return (point.offer.price < PRICE_LOW - 1);
-      case 'high':
-        return (point.offer.price > PRICE_HIGH - 1);
-    }
-  });
-
-  return filteredPoints;
-}
-
 const filterRoom = mapFilters.querySelector('#housing-rooms');
-const setFilterRoomChange = () => {
-  filterRoom.addEventListener('change', filterPoints);
-}
-
-const filterByRoom = (points) => {
-  const filteredPoints = points.filter((point) => {
-    return point.offer.rooms == filterRoom.value;
-  });
-
-  return filteredPoints;
-}
-
 const filterGuests = mapFilters.querySelector('#housing-guests');
-const setFilterGuestsChange = () => {
-  filterGuests.addEventListener('change', filterPoints);
+
+const filterByFeature = (features, point) => {
+  return features.every(feature => point.offer.features.includes(feature.value));
 }
 
-const filterByGuest = (points) => {
-  const filteredPoints = points.filter((point) => {
-    return point.offer.guests == filterGuests.value;
-  });
-
-  return filteredPoints;
+const priceFilter = {
+  middle: (price) => price > PRICE_LOW && price < PRICE_HIGH,
+  low: (price) => price < PRICE_LOW - 1,
+  high: (price) => price > PRICE_HIGH - 1,
 }
 
-const setFilterFeatureChange = () => {
-  mapFeatureList.addEventListener('change', filterPoints);
-}
-
-const filterByFeature = (feature, points) => {
-  const filteredPoints = points.filter((point) => {
-    return point.offer.features.includes(feature.value);
-  });
-
-  return filteredPoints;
+const filterByPrice = (point) => {
+  return priceFilter[filterPrice.value](point.offer.price);
 }
 
 const getFilteredData = () => {
-  let result = window.points;
-  let features = mapFeatureList.querySelectorAll(':checked');
+  const features = Array.from(mapFeatureList.querySelectorAll(':checked'));
 
-  mapFilterList.forEach((filterType) => {
-    if (filterType.value !== ANY) {
-      switch (filterType.id) {
-        case 'housing-type':
-          return result = filterByType(result);
-        case 'housing-price':
-          return result = filterByPrice(result);
-        case 'housing-rooms':
-          return result = filterByRoom(result);
-        case 'housing-guests':
-          return result = filterByGuest(result);
-      }
-    }
-  })
-  
-  if (features) {
-    features.forEach((feature) => {
-      return result = filterByFeature(feature, result);
-    })
-  }
+  return window.points.filter((point) => {
+    const filteredRoom = filterRoom.value === ANY || point.offer.rooms === Number(filterRoom.value);
+    const filteredGuest = filterGuests.value === ANY || point.offer.guests === Number(filterGuests.value);
+    const filteredType = filterType.value === ANY || point.offer.type === filterType.value;
+    const filteredPrice = filterPrice.value === ANY || filterByPrice(point);
+    const filteredFeature = features.length ? filterByFeature(features, point) : true; 
 
-  return result;
+    return filteredRoom && filteredGuest && filteredType && filteredPrice && filteredFeature;
+  });
 }
 
 const filterPoints = () => {
   restoreMap();
   const filteredData = getFilteredData();
-  // console.log(filteredData);
-
-  return addPointOnMap(filteredData);
+  addPointOnMap(filteredData);
 }
 
-export {disableFilters, enableFilters, resetFilters, setFilterTypeChange, setFilterRoomChange, setFilterGuestsChange, setFilterPriceChange, setFilterFeatureChange, filterType, mapFilterList, filterPoints};
+mapFilters.addEventListener('change', _.debounce(filterPoints, RERENDER_DELAY));
+
+export {disableFilters, enableFilters, resetFilters, filterType, mapFilterList, filterPoints};
