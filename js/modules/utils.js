@@ -35,12 +35,14 @@ const showSuccessMessage = () => {
   container.append(messageElement);
   
   window.addEventListener('keydown', (evt) => {
+    window.removeEventListener('keydown', () => {});
     if (evt.key === 'Esc' || evt.key === 'Escape') {
       closeMessage(messageElement);
     }
   });
 
   window.addEventListener('click', () => {
+    window.removeEventListener('click', () => {});
     closeMessage(messageElement);
   });
 }
