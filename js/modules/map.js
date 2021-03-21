@@ -1,5 +1,4 @@
 /* global L:readonly */
-
 import {createCardTemplate} from './card.js';
 import {setAddress, enableForm, disableForm} from './form.js';
 import {enableFilters, disableFilters} from './filter.js';
@@ -70,7 +69,7 @@ const addPointOnMap = (points) => {
   points
     .slice(0, POINTS_AMOUNT)
     .forEach((point) => {
-      const lat = point.location.lat
+      const lat = point.location.lat;
       const lng = point.location.lng;
 
       const marker = L.marker({
@@ -87,6 +86,7 @@ const addPointOnMap = (points) => {
           createCardTemplate(point),
         );
     })
+
   isMap = true;
 }
 

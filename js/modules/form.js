@@ -1,7 +1,5 @@
 import {sendData} from './data.js';
 import {showSuccessMessage, showErrorMessage} from './utils.js';
-import {resetFilters} from './filter.js';
-import {resetMainPoint} from './map.js';
 
 const FLOAT_NUMBER = 5;
 const PRICE_MAX = 1000000;
@@ -94,14 +92,6 @@ const setPointFormSubmit = (onSuccess) => {
   });
 };
 
-const formReset = form.querySelector('.ad-form__reset');
+const resetFormButton = form.querySelector('.ad-form__reset');
 
-formReset.addEventListener('click', (evt) => {
-  evt.preventDefault();
-
-  resetForm();
-  resetFilters();
-  resetMainPoint();
-})
-
-export {form, setPrice, setAddress, placeTitle, placeRoom, placeCapacity, disableForm, enableForm, resetForm, setPointFormSubmit};
+export {form, setPrice, setAddress, placeTitle, placeRoom, placeCapacity, disableForm, enableForm, resetForm, setPointFormSubmit, resetFormButton};

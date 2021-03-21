@@ -40,8 +40,6 @@ const setPlaceCapacity = () => {
   }
 }
 
-// setPlaceCapacity();
-
 placeRoom.addEventListener('change', () => {
   setPlaceCapacity();
 });
